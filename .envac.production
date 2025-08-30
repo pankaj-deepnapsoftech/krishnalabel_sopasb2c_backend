@@ -1,0 +1,9 @@
+
+#  Production Environment Variables
+# MONGODB_URL=mongodb://127.0.0.1:27017/rtpas 
+MONGODB_URL=mongodb+srv://deepnapsoftech:krishnalabel@cluster0.3yevm.mongodb.net/?retryWrites=true&w=majority&appName=>
+JWT_SECRET=743MEke(@#4k)kdfrn
+PASSWORD_RESET_SECRET=74*@31jhrhEMwphER
+EMAIL_ID=deepnap3@gmail.com
+EMAIL_PASSWORD=asrymqdozinusmok
+PORT=8077  
