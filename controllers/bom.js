@@ -11,7 +11,6 @@ exports.create = TryCatch(async (req, res) => {
     raw_materials,
     processes,
     finished_good,
-    approved_by,
     approval_date,
     bom_name,
     parts_count,
@@ -444,8 +443,6 @@ exports.update = TryCatch(async (req, res) => {
 
     await productionProcess.save();
   }
-
-  await BOM.findByIdAndUpdate(id,{approved:"false"});
 
   if (insuffientStockMsg) {
     return res.status(400).json({
