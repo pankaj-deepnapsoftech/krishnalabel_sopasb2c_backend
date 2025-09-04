@@ -445,7 +445,7 @@ exports.update = TryCatch(async (req, res) => {
     await productionProcess.save();
   }
 
-  await BOM.findByIdAndUpdate(id,{approved:"false"});
+  // await BOM.findByIdAndUpdate(id,{approved:"false"});
 
   if (insuffientStockMsg) {
     return res.status(400).json({
