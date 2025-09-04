@@ -11,7 +11,6 @@ exports.create = TryCatch(async (req, res) => {
     raw_materials,
     processes,
     finished_good,
-    approved_by,
     approval_date,
     bom_name,
     parts_count,
