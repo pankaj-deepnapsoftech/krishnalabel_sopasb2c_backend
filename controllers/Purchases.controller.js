@@ -394,9 +394,8 @@ class PurchaseController {
   }
 
   async Imagehandler(req, res) {
-    const { assined_to, assinedto_comment } = req.body;
+    const { assined_to, assinedto_comment, designFile } = req.body;
     const { id } = req.params;
-    const { filename } = req.file;
     const find = await Purchase.findById(id);
     if (!find) {
       return res.status(404).json({
@@ -404,9 +403,7 @@ class PurchaseController {
       });
     }
 
-    const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
-
-    await Purchase.findByIdAndUpdate(id, { designFile: path });
+    await Purchase.findByIdAndUpdate(id, { designFile });
 
     await AssinedModel.findByIdAndUpdate(assined_to, {
       isCompleted: "Completed",
@@ -478,17 +475,16 @@ class PurchaseController {
   async uploadsampleImage(req, res) {
     try {
       const { id } = req.params;
-      const { filename } = req.file;
+      const { sample_image } = req.body;
       const find = await Purchase.findById(id);
       if (!find) {
         return res.status(404).json({
           message: "data not found try again",
         });
       }
+    console.log(sample_image)
 
-      const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
-
-      await Purchase.findByIdAndUpdate(id, { sample_image: path });
+      await Purchase.findByIdAndUpdate(id, { sample_image });
 
       return res.status(201).json({
         message: "file uploaded successful",

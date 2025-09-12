@@ -37,7 +37,6 @@ route.delete("/delete/:id", isAuthenticated, purchaseController.Delete);
 route.patch(
   "/upload-image/:id",
   isAuthenticated,
-  Imageupload.single("image"),
   purchaseController.Imagehandler
 );
 
@@ -61,7 +60,6 @@ route.patch(
 route.patch(
   "/upload-sample-image/:id",
   isAuthenticated,
-  Imageupload.single("sample_image"),
   purchaseController.uploadsampleImage
 );
 
