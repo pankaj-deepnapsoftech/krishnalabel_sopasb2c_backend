@@ -40,7 +40,6 @@ route.patch(
 route.patch(
   "/upload-invoice/:id",
   isAuthenticated,
-  Imageupload.single("invoice"),
   purchaseController.uploadinvoice
 );
 
@@ -98,7 +97,6 @@ route.patch(
 route.patch(
   "/payement-image/:id",
   isCustomerAuthenticated,
-  Imageupload.single("payment"),
   purchaseController.uploadPaymentSS
 );
 route.patch(
@@ -109,7 +107,6 @@ route.patch(
 route.patch("/dispatch/:id", isAuthenticated, purchaseController.Dispatch);
 route.patch(
   "/delivery/:id",
-  Imageupload.single("delivery"),
   purchaseController.Delivered
 );
 
@@ -126,6 +123,6 @@ route.patch(
 route.patch("/verifyToken/:id", isAuthenticated, purchaseController.VerifyToken);
 
 route.patch("/approveSample/:id", isAuthenticated, purchaseController.ApproveSample);
-route.put("/half-payement/:id", Imageupload.single("halfPayment"),purchaseController.UploadHalfProfe)
+route.put("/half-payement/:id",purchaseController.UploadHalfProfe)
 
 module.exports = route;

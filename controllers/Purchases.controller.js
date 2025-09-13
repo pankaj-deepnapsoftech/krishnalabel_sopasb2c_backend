@@ -5,7 +5,7 @@ class PurchaseController {
   async create(req, res) {
     try {
       const data = req.body;
-
+    console.log(req.body)
 
       const newData = {
         ...data,
@@ -405,9 +405,8 @@ class PurchaseController {
 
   async uploadinvoice(req, res) {
     try { 
-      const { invoice_remark } = req.body;
+      const { invoice_remark, invoice } = req.body;
       const { id } = req.params;
-      const { filename } = req.file;
       const find = await Purchase.findById(id);
       if (!find) {
         return res.status(404).json({
@@ -415,9 +414,8 @@ class PurchaseController {
         });
       }
 
-      const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
 
-      await Purchase.findByIdAndUpdate(id, { invoice: path, invoice_remark: invoice_remark });
+      await Purchase.findByIdAndUpdate(id, { invoice, invoice_remark: invoice_remark });
 
       // await AssinedModel.findByIdAndUpdate(assined_to, {
       //   isCompleted: "Completed",
@@ -701,14 +699,9 @@ class PurchaseController {
   }
 
   async uploadPaymentSS(req, res) {
-    const { filename } = req.file;
     const { id } = req.params;
+    const { customer_pyement_ss } = req.bady;
 
-    if (!filename) {
-      return res.status(404).json({
-        message: "file not found",
-      });
-    }
 
     const data = await Purchase.findById(id);
     if (!data) {
@@ -717,9 +710,8 @@ class PurchaseController {
       });
     }
 
-    const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
     await Purchase.findByIdAndUpdate(id, {
-      customer_pyement_ss: path,
+      customer_pyement_ss,
       paymet_status: "Paied",
       payment_verify: false,
     });
@@ -782,14 +774,10 @@ class PurchaseController {
   }
 
   async Delivered(req, res) {
-    const { filename } = req.file;
+    const { dispatcher_order_ss } = req.body;
     const { id } = req.params;
 
-    if (!filename) {
-      return res.status(404).json({
-        message: "file not found",
-      });
-    }
+   
 
     const data = await Purchase.findById(id);
       try {
@@ -799,15 +787,14 @@ class PurchaseController {
           });
         }
 
-        const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
         if (req.body.role = 'Dispatcher') {
           await Purchase.findByIdAndUpdate(id, {
-            dispatcher_order_ss: path,
+            dispatcher_order_ss,
             product_status: "Delivered",
           });
         } else {
           await Purchase.findByIdAndUpdate(id, {
-            customer_order_ss: path,
+            customer_order_ss,  
             product_status: "Delivered",
           });
         }
@@ -918,10 +905,8 @@ class PurchaseController {
 
   async UploadHalfProfe(req,res){
     const data = req.body;
-    const {filename} = req.file;
     const {id} = req.params;
-    const half_payment_image = `https://rtpasbackend.deepmart.shop/images/${filename}`;
-    await Purchase.findByIdAndUpdate(id,{...data,half_payment_image})
+    await Purchase.findByIdAndUpdate(id,data)
     return res.status(200).json({
       message:"payment Proof Upload"
     })
