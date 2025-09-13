@@ -734,7 +734,7 @@ class PurchaseController {
       });
     }
 
-    assign.isCompleted = "Complete";
+    assign.isCompleted = "Completed";
     await assign.save();
     return res.status(200).json({
       message: "Payment verified Successful",
