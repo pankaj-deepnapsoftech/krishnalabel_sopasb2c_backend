@@ -5,22 +5,11 @@ class PurchaseController {
   async create(req, res) {
     try {
       const data = req.body;
-      const productFile = req.files?.productFile?.[0];
-      const performaInvoice = req.files?.performaInvoice?.[0];
 
-      const productFilePath = productFile
-        ? `https://rtpasbackend.deepmart.shop/images/${productFile.filename}`
-        : null;
-
-      const performaInvoicePath = performaInvoice
-        ? `https://rtpasbackend.deepmart.shop/images/${performaInvoice.filename}`
-        : null;
 
       const newData = {
         ...data,
         user_id: req?.user._id,
-        productFile: productFilePath,
-        performaInvoice: performaInvoicePath,
       };
 
       await Purchase.create(newData);
@@ -861,14 +850,9 @@ class PurchaseController {
   }
 
   async uploadTokenSS(req, res) {
-    const { filename } = req.file;
+    const { token_ss } = req.body;
     const { id } = req.params;
 
-    if (!filename) {
-      return res.status(404).json({
-        message: "file not found",
-      });
-    }
 
     const data = await Purchase.findById(id);
     if (!data) {
@@ -877,9 +861,8 @@ class PurchaseController {
       });
     }
 
-    const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
     await Purchase.findByIdAndUpdate(id, {
-      token_ss: path,
+      token_ss,
       token_status: true,
       isTokenVerify: false
     });

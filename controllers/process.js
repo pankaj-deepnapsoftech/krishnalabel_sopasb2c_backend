@@ -74,8 +74,8 @@ exports.create = TryCatch(async (req, res) => {
   await bom.save();
 
   await BOM.updateOne(
-    { _id: processData.bom },       
-    { inventory_added: true }  
+    { _id: processData.bom },
+    { inventory_added: true }
   );
 
   res.status(200).json({
@@ -289,7 +289,7 @@ exports.details = TryCatch(async (req, res) => {
   });
 });
 exports.all = TryCatch(async (req, res) => {
-  
+
   // await ProductionProcess.updateMany({}, { $set: { inventory_approve: "false" } });
   const productionProcesses = await ProductionProcess.find().sort({ _id: -1 }).populate(
     "rm_store fg_store scrap_store creator item bom"
@@ -306,6 +306,7 @@ exports.markDone = TryCatch(async (req, res) => {
   if (!_id) {
     throw new ErrorHandler("Id not provided", 400);
   }
+  // console.log("id assinged", _id)
   const productionProcess = await ProductionProcess.findById(_id);
   if (!productionProcess) {
     throw new ErrorHandler("Production process doesn't exist", 400);
@@ -321,34 +322,34 @@ exports.markDone = TryCatch(async (req, res) => {
       }
     },
     {
-      $lookup:{
-        from:"boms",
-        localField:"bom",
-        foreignField:"_id",
-        as:"bom",
-        pipeline:[
+      $lookup: {
+        from: "boms",
+        localField: "bom",
+        foreignField: "_id",
+        as: "bom",
+        pipeline: [
           {
-            $lookup:{
-              from:"purchases",
-              localField:"sale_id",
-              foreignField:"_id",
-              as:"sale_id",
-              pipeline:[
+            $lookup: {
+              from: "purchases",
+              localField: "sale_id",
+              foreignField: "_id",
+              as: "sale_id",
+              pipeline: [
                 {
-                  $lookup:{
-                    from:"assineds",
-                    localField:"_id",
-                    foreignField:"sale_id",
-                    as:"assined",
-                    pipeline:[
+                  $lookup: {
+                    from: "assineds",
+                    localField: "_id",
+                    foreignField: "sale_id",
+                    as: "assined",
+                    pipeline: [
                       {
-                        $match:{
-                          assined_to:req.user?._id
+                        $match: {
+                          assined_to: req.user?._id
                         }
                       },
                       {
-                        $project:{
-                          assined:1
+                        $project: {
+                          isCompleted: 1
                         }
                       }
                     ]
@@ -361,13 +362,18 @@ exports.markDone = TryCatch(async (req, res) => {
       }
     }
   ])
-  const id = data[0].bom[0].sale_id[0].assined[0]._id;
-  await AssinedModel.findByIdAndUpdate(id,{isCompleted:"Completed"});
-
+  let id = data[0].bom[0].sale_id[0].assined[0]._id;
+  let status = data[0].bom[0].sale_id[0].assined[0].isCompleted;
+  if (status === "Completed") {
+    id = data[0].bom[0].sale_id[0].assined[1]._id
+  }
+  await AssinedModel.findByIdAndUpdate(id, { isCompleted: "Completed" });
+  // console.log(data[0].bom[0].sale_id[0].assined[0])
   res.status(200).json({
     status: 200,
     success: true,
     message: "Production process has been marked done successfully",
+    data
   });
 });
 

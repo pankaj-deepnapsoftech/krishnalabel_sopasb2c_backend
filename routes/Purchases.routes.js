@@ -13,10 +13,6 @@ const route = Router();
 route.post(
   "/create",
   isAuthenticated,
-  Imageupload.fields([
-    { name: 'productFile', maxCount: 1 },
-    { name: 'performaInvoice', maxCount: 1 }
-  ]),
   purchaseController.create
 );
 
@@ -124,7 +120,6 @@ route.patch("/updatesales/:id", isAuthenticated, purchaseController.updatesale);
 route.patch(
   "/tokenProof/:id",
   isCustomerAuthenticated,
-  Imageupload.single("token_ss"),
   purchaseController.uploadTokenSS
 );
 
