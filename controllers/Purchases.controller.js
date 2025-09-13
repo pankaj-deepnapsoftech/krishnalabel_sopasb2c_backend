@@ -694,7 +694,7 @@ class PurchaseController {
 
   async uploadPaymentSS(req, res) {
     const { id } = req.params;
-    const { customer_pyement_ss } = req.bady;
+    const { customer_pyement_ss } = req.body;
 
 
     const data = await Purchase.findById(id);
