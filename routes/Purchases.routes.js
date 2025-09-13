@@ -91,7 +91,6 @@ route.get("/all", isAuthenticated, purchaseController.All);
 route.patch(
   "/upload-invoice/:id",
   isAuthenticated,
-  Imageupload.single("invoice"),
   purchaseController.uploadPDF
 );
 route.patch(

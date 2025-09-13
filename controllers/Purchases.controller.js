@@ -674,13 +674,8 @@ class PurchaseController {
   }
 
   async uploadPDF(req, res) {
-    const { filename } = req.file;
-    const { id } = req.params;
-    if (!filename) {
-      return res.status(404).json({
-        message: "file not found",
-      });
-    }
+    const { invoice } = req.body;
+    const { id } = req.params; 
 
     const data = await Purchase.findById(id);
     if (!data) {
@@ -688,9 +683,8 @@ class PurchaseController {
         message: "data not found",
       });
     }
-    const path = `https://rtpasbackend.deepmart.shop/images/${filename}`;
     await Purchase.findByIdAndUpdate(id, {
-      invoice: path,
+      invoice,
       paymet_status: "Pending",
     });
     return res.status(200).json({
@@ -905,6 +899,7 @@ class PurchaseController {
 
   async UploadHalfProfe(req,res){
     const data = req.body;
+    console.log(data) 
     const {id} = req.params;
     await Purchase.findByIdAndUpdate(id,data)
     return res.status(200).json({
