@@ -657,12 +657,16 @@ class PurchaseController {
   async All(req, res) {
     try {
       const totalSales = await Purchase.countDocuments({
+        // payment_verify: true,
+      });
+      const verifiedSales = await Purchase.countDocuments({
         payment_verify: true,
       });
-
+     console.log(totalSales)
       res.status(200).json({
         success: true,
         total: totalSales,
+        verified: verifiedSales,
       });
     } catch (error) {
       console.error("Error fetching total customers:", error);

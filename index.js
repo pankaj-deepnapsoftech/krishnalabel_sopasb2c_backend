@@ -36,9 +36,9 @@ const servers = http.createServer(app);
 require('dotenv').config({ path: `.env.production` });
 
 const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:5173",
+  // "http://localhost:3000",
+  // "http://localhost:3001",
+  // "http://localhost:5173",     
   "https://inventory.deepmart.shop",
   "https://rtpas.deepmart.shop",
   "https://sopasb2c.deepmart.shop",
