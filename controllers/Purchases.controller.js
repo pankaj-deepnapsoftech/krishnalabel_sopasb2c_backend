@@ -877,7 +877,7 @@ class PurchaseController {
     }
 
     await Purchase.findByIdAndUpdate(id, { isTokenVerify: true});
-    const assign = await AssinedModel.findByIdAndUpdate(assignId, {isCompleted: "Complete"});
+    const assign = await AssinedModel.findByIdAndUpdate(assignId, {isCompleted: "Completed"});
     if (!assign) {
       return res.status(404).json({
         message: "Assign data not found",
